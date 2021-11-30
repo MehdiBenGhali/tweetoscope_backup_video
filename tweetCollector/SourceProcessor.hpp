@@ -1,10 +1,9 @@
 #pragma once
 
 #include "cascade.hpp"
-#include "producer.hpp"
+#include "tweetoscopeProducer.hpp"
 #include "tweet.hpp"
-#include "tweetoscopeCollectorTweetReader.cpp"
-#include "tweetoscopeCollectorParams.hpp"
+#include "CollectorParams.hpp"
 
 #include <memory>
 #include <boost/heap/binomial_heap.hpp>
@@ -16,7 +15,7 @@
 
 namespace tweetoscope {
 
-using wref_cascade = std::weak_ptr<tweetoscope::Cascade>;
+using wref_cascade = std::weak_ptr<tweetCascade>;
 
 class Processor{
     private : 
@@ -37,7 +36,6 @@ class Processor{
         std::map<double, std::queue<wref_cascade>> partial_cascade_map;
 
     public : 
-        Processor() = default; 
         Processor(const tweetoscope::Tweet&) = default;
         Processor& operator=(const Processor&) = default; //Default constructors
 

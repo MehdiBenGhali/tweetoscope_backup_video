@@ -1,13 +1,11 @@
-#pragma once
-
-#include "Cascade.hpp"
+#include "cascade.hpp"
 
 #include <memory>
 #include <vector> 
 #include <string>
 #include <boost/heap/binomial_heap.hpp>
 
-std::string tweetoscope::Cascade::toSeries(double time){
+std::string tweetoscope::tweetCascade::toSeries(double time){
     auto it_m = magnitudes.begin();
     std::string list_times = "[";
     std::string list_magnitudes = "[";
@@ -22,13 +20,13 @@ std::string tweetoscope::Cascade::toSeries(double time){
     "\"times\":" + list_times + "," +"\"magnitudes\":" + list_magnitudes + "}";
 }
 
-std::string tweetoscope::Cascade::toSize(){
+std::string tweetoscope::tweetCascade::toSize(){
     return "{\"type\": \"size\", \"cid\":" + std::to_string(cascade_id) + ","
     + "\"n_tot\":" + ///to do size
     + "," + "\"t_end\":" + std::to_string(last_tweet_time) + "}";
 }
 
-std::ostream& tweetoscope::operator<<(std::ostream & os, tweetoscope::Cascade const& cascade){
+std::ostream& tweetoscope::operator<<(std::ostream & os, tweetoscope::tweetCascade const& cascade){
     os << "Id : " << cascade.cascade_id <<" | message initial: "<< cascade.message << std::endl;
     auto it_t = cascade.times.begin();
     for (auto it_m = cascade.magnitudes.begin() ; it_m != cascade.magnitudes.end(); ++it_m, ++it_t){

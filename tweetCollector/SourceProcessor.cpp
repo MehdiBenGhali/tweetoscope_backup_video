@@ -1,5 +1,3 @@
-#pragma once
-
 #include "SourceProcessor.hpp"
 
 #include <memory>
@@ -20,7 +18,7 @@ tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetosc
         {
             // we initialize an empty map
             for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){ 
-                std::queue<wref_cascade> empty_queue;
+                std::queue<tweetoscope::wref_cascade> empty_queue;
                 partial_cascade_map[*iter] = empty_queue;
             }
         }
