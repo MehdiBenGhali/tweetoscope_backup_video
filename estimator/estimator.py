@@ -2,7 +2,7 @@ import json  # To parse and dump JSON
 from kafka import KafkaConsumer  # Import Kafka consumer
 from kafka import KafkaProducer  # Import Kafka producer
 import numpy as np
-import estimator_helper
+import estimator_header
 import logger
 import argparse
 
@@ -29,11 +29,11 @@ if __name__ == "__main__":
         times = msg.value['times']
         history = [list(a) for a in zip(times, msg.value['magnitudes'])]
         history = np.array(history)
-        _, params = estimator_helper.compute_MAP(history, times[-1])
+        _, params = estimator_header.compute_MAP(history, times[-1])
         text = msg.value['msg']
         cid = msg.value['cid']
         n_obs = len(times)
-        n_supp, g1, n_star = estimator_helper.prediction(params, history, times[-1])
+        n_supp, g1, n_star = estimator_header.prediction(params, history, times[-1])
         value = {
             'type': 'parameters',
             'cid': cid,
