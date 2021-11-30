@@ -32,8 +32,8 @@ void tweetoscope::Processor::extractExpired(tweetoscope::Tweet const& tweet){
             int t_end = ref->last_tweet_time;
             int size = (ref->times).size();
             if((ref->times).size()>=min_cascade_size){
-                serial.produce(ref, t_end);
-                sizal.produce(ref, timewindows);
+                serial.post(ref, t_end);
+                sizal.post(ref, timewindows);
             }
             cascade_queue.pop(); //Remove terminated cascade from queue
             ref.reset(); //Decrement cascade pointer
@@ -52,7 +52,7 @@ void tweetoscope::Processor::postPartials(tweetoscope::Tweet const& tweet){
                 auto wrcascade = partial_queue.front();
                 partial_queue.pop();
                 if (wrcascade.lock()) {
-                    serial.produce(wrcascade.lock(),*iter);
+                    serial.post(wrcascade.lock(),*iter);
                 }              
             }
         }

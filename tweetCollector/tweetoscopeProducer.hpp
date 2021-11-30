@@ -29,7 +29,7 @@ struct serie_Producer : public cppkafka::Producer {
         serie_Producer(const tweetoscope::params::collector params); //Constructor from params collector object
         serie_Producer(const tweetoscope::params::collector params, std::string out_category); //Constructor from params collector object with output topic specification
 
-        void produce(ref_cascade const& rcascade, double const& obs_time){}; //Produces a cascade as a tweet series
+        void post(ref_cascade const& rcascade, double const& obs_time){}; //Produces a cascade as a tweet series
 };
 
 using times_vect = std::vector<double> ;
@@ -45,6 +45,6 @@ struct size_Producer : public cppkafka::Producer {
         size_Producer(const tweetoscope::params::collector params); //Constructor from params collector object
         size_Producer(const tweetoscope::params::collector params, std::string out_category); //Constructor from params collector object with output topic specification
 
-        void produce(ref_cascade const& rcascade, times_vect const& timewindows){}; //Produces a cascade size message for each predictor
+        void post(ref_cascade const& rcascade, times_vect const& timewindows){}; //Produces a cascade size message for each predictor
 };
 }

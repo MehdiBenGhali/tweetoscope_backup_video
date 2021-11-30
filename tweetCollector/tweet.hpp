@@ -15,6 +15,7 @@ struct Tweet{
     std::string info;
 
     //Constructors
+    Tweet() = default;
     Tweet(const Tweet&) = default;
     Tweet& operator=(const Tweet&) = default; //Default constructors
     Tweet(std::string const& type,double const& source,std::string const& message,int t, int m) :

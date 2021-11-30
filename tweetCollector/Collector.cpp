@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
   
   // Create Consumer
   tweetoscope::tweetConsumer tweetConsumer(params);
-  consumer.subscribeTopic();
+  tweetConsumer.subscribeTopic();
 
   // Create producers
   tweetoscope::size_Producer sizal(params, "out_properties");
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 
   while (true){
     // get message from topic 
-    auto msg = consumer.poll();
+    auto msg = tweetConsumer.poll();
     // testing if msg usable
     if (msg && !msg.get_error()){
         // transform msg as cascade_id, tweet
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         if ( processor_map.find(tweet.source) == processor_map.end()) { //this source does not have a processor
           processor_map[tweet.source] = new tweetoscope::Processor(params, serial, sizal, tweet.source); //to each source its processor 
         }
-        processor_map[twt.source]->process(twt,cascade_id); //we run the engine corresponding to this source
+        processor_map[tweet.source]->process(tweet,cascade_id); //we run the engine corresponding to this source
     }
   }
 

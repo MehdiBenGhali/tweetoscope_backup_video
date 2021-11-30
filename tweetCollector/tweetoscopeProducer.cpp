@@ -23,7 +23,7 @@ tweetoscope::serie_Producer::serie_Producer(const tweetoscope::params::collector
 	}
 
 //Produces a cascade as a tweet series
-void tweetoscope::serie_Producer::produce(tweetoscope::ref_cascade const& rcascade,double const& obs_time){
+void tweetoscope::serie_Producer::post(tweetoscope::ref_cascade const& rcascade,double const& obs_time){
     this->produce(MessageBuilder(topic).payload(rcascade->toSeries(obs_time)));
 }
 
@@ -41,7 +41,7 @@ tweetoscope::size_Producer::size_Producer(const tweetoscope::params::collector p
 	}
 
 //Produces a cascade size message for each predictor
-void tweetoscope::size_Producer::produce(tweetoscope::ref_cascade const& rcascade, tweetoscope::times_vect const& timewindows){
+void tweetoscope::size_Producer::post(tweetoscope::ref_cascade const& rcascade, tweetoscope::times_vect const& timewindows){
     for (const auto& obs_time : timewindows) {
         this->produce(MessageBuilder(topic).key(obs_time).payload(rcascade->toSize()));
     }
