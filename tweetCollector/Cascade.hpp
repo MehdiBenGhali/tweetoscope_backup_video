@@ -34,19 +34,19 @@ class Cascade{
         Cascade(const Cascade&) = default;
         Cascade& operator=(const Cascade&) = default; //Constructors
 
-        Cascade(Tweet const& tweet) : 
-        cascade_id(tweet.cascade_id), message(tweet.message), 
+        Cascade(std::string cascade_id, tweetoscope::Tweet const& tweet) : 
+        cascade_id(cascade_id), message(tweet.message), 
         magnitudes(std::vector<double>(tweet.magnitude)), times(std::vector<double>(tweet.time)),
         last_tweet_time(tweet.time) {}; //Constructor from a tweet
 
         inline bool operator<(const Cascade& other) const { return (this->last_tweet_time < other.last_tweet_time);} //Compares cascades by last tweet update time
         //Updates a cascade with an incoming tweet
-        inline void update(Tweet const& tweet) {
+        inline void update(tweetoscope::Tweet const& tweet) {
             magnitudes.pushback(tweet.magnitude);
             times.pushback(tweet.time);
             last_tweet_time = tweet.time ;
             } 
-        inline bool isAlive(Tweet const& tweet) {return ((tweet.time - this->last_tweet_time)<seuil);}   
+        inline bool isAlive(tweetoscope::Tweet const& tweet) {return ((tweet.time - this->last_tweet_time)<seuil);}   
 
         std::string toSeries(double time); //Creates a JSON representation of the cascade time series at a given time   
         std::string toSize(); //Creates a JSON representation of a terminated cascade size 

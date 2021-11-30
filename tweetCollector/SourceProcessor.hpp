@@ -15,11 +15,8 @@
 #include <map>
 
 namespace tweetoscope {
-class Cascade;
-class serie_producer; 
-class size_producer;
 
-using wref_cascade = std::weak_ptr<Cascade>;
+using wref_cascade = std::weak_ptr<tweetoscope::Cascade>;
 
 class Processor{
     private : 
@@ -30,7 +27,7 @@ class Processor{
 
         //parameters
         double expiration_time;
-        std::vector<double> times;
+        std::vector<double> timewindows;
         unsigned int this_collection_source; 
         int min_cascade_size;
 
@@ -41,7 +38,7 @@ class Processor{
 
     public : 
         Processor() = default; 
-        Processor(const Tweet&) = default;
+        Processor(const tweetoscope::Tweet&) = default;
         Processor& operator=(const Processor&) = default; //Default constructors
 
         //Constructor from params
@@ -51,9 +48,16 @@ class Processor{
 
         ~Processor(){}; //Destructor
 
-        //Updates queue when a tweet arrives
-        void update(Tweet const& tweet){}; 
+        //Run processor treatments upon tweet arrival
+        void process(tweetoscope::Tweet const& tweet, std::string const& cascade_id){}; 
+
         //Extracts terminated cascades and publishes them
-        void extract(Tweet const& tweet){}; 
+        void extractExpired(tweetoscope::Tweet const& tweet){}; 
+
+        //Post partial active cascades on time of tweet
+        void postPartials(tweetoscope::Tweet const& tweet){};
+
+        //create new cascade or update existing one 
+        void updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id){};
 };
 }

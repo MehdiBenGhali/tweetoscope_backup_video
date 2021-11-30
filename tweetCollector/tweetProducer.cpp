@@ -43,8 +43,8 @@ tweetoscope::size_producer::size_Producer(const tweetoscope::params::collector p
 	}
 
 //Produces a cascade size message for each predictor
-void tweetoscope::size_producer::produce(ref_cascade const& rcascade, times_vect const& times){
-    for (const auto& obs_time : times) {
+void tweetoscope::size_producer::produce(ref_cascade const& rcascade, times_vect const& timewindows){
+    for (const auto& obs_time : timewindows) {
         this->produce(MessageBuilder(topic).key(obs_time).payload(rcascade->toSize()));
     }
 }

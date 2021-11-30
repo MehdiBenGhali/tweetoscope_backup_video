@@ -13,8 +13,10 @@
 using namespace cppkafka ;
 
 namespace tweetoscope {
-class Cascade;
-using wref_cascade = std::weak_ptr<Cascade> ;
+
+using wref_cascade = std::weak_ptr<tweetoscope::Cascade> ;
+using ref_cascade = std::shared_ptr<tweetoscope::Cascade> ;
+
 
 struct serie_Producer : public cppkafka::Producer {
     private:
@@ -45,6 +47,6 @@ struct size_Producer : public cppkafka::Producer {
         size_Producer(const tweetoscope::params::collector params); //Constructor from params collector object
         size_Producer(const tweetoscope::params::collector params, std::string out_category); //Constructor from params collector object with output topic specification
 
-        void produce(ref_cascade const& rcascade, times_vect const& times){}; //Produces a cascade size message for each predictor
+        void produce(ref_cascade const& rcascade, times_vect const& timewindows){}; //Produces a cascade size message for each predictor
 };
 }
