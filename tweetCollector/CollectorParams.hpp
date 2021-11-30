@@ -29,7 +29,7 @@ namespace tweetoscope {
       };
       
       struct Times {
-	std::vector<std::size_t> observation;
+	std::vector<double> observation;
 	std::size_t              terminated;
       };
 

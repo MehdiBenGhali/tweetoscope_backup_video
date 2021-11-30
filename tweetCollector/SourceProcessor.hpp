@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cascade.hpp"
+#include "Cascade.hpp"
 #include "tweetoscopeProducer.hpp"
 #include "tweet.hpp"
 #include "CollectorParams.hpp"
@@ -20,8 +20,8 @@ using wref_cascade = std::weak_ptr<tweetCascade>;
 class Processor{
     private : 
         //Producers 
-        tweetoscope::serie_producer serial;
-        tweetoscope::size_producer sizal;
+        tweetoscope::serie_Producer serial;
+        tweetoscope::size_Producer sizal;
         //tweetoscope::log_producer logger """to implement"""
 
         //parameters
@@ -29,6 +29,7 @@ class Processor{
         std::vector<double> timewindows;
         unsigned int this_collection_source; 
         int min_cascade_size;
+        double expiration_time;
 
         //Collections 
         tweetoscope::priority_queue cascade_queue;
@@ -36,12 +37,11 @@ class Processor{
         std::map<double, std::queue<wref_cascade>> partial_cascade_map;
 
     public : 
-        Processor(const tweetoscope::Tweet&) = default;
         Processor& operator=(const Processor&) = default; //Default constructors
 
         //Constructor from params
-        Processor(tweetoscope::params::collector params,tweetoscope::serie_producer& serial,
-                     tweetoscope::size_producer& sizal, int collection_source);
+        Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer serial,
+                     tweetoscope::size_Producer sizal, int collection_source);
 
 
         ~Processor(){}; //Destructor

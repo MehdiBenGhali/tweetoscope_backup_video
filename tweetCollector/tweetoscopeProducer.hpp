@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cascade.hpp"
+#include "Cascade.hpp"
 #include "CollectorParams.hpp"
 
 #include <iostream>
