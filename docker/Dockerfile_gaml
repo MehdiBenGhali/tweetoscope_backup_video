@@ -1,0 +1,39 @@
+FROM ubuntu
+
+#Base
+RUN echo "Installing basic requirements.."
+RUN apt-get update
+RUN apt-get install openjdk-11-jdk -y
+RUN apt-get install wget -y
+RUN apt install git-all -y
+RUN apt install cmake -y
+
+RUN sudo apt install build-essential \
+pkg-config \
+python-dev \
+python-six \
+cython \
+python-numpy \
+coinor-libipopt1v5 \
+coinor-libipopt-dev
+
+#C++
+
+#GAML
+RUN echo "Installing GAML.."
+RUN git clone https://github.com/HerveFrezza-Buet/gaml
+WORKDIR /gaml/gaml/build
+RUN cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+RUN make -j
+RUN make install
+WORKDIR /
+
+
+# CPPKAFKA
+RUN echo "Installing kafka.."
+RUN apt-get install -y librdkafka-dev
+RUN apt-get install -y libssl-dev
+RUN apt-get install -y build-essential libboost-all-dev
+RUN git clone https://github.com/mfontanini/cppkafka.git
+RUN cd cppkafka; mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; sudo make install -j
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/lib/x86_64-linux-gnu"

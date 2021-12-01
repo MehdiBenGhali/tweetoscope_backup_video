@@ -1,0 +1,16 @@
+stages:
+    - test
+    - build_collector
+    - build_estimator
+    - build_predictor
+
+  services:
+    - docker:dind
+
+build_package_job:
+    stage: test
+    tags:
+    - docker
+    image: hello-world
+    script:
+    - docker run hello-world
