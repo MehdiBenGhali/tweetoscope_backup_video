@@ -8,8 +8,8 @@ namespace tweetoscope{
 struct Tweet{
     //Attributes
     std::string type;
-    std::string message;
     double source;
+    std::string message;
     int time;
     int magnitude; 
     std::string info;

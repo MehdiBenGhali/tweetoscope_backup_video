@@ -9,30 +9,32 @@
 #include <boost/heap/binomial_heap.hpp>
 
 namespace tweetoscope {
-class tweetCascade;
 
+class tweetCascade;
 using ref_cascade = std::shared_ptr<tweetCascade>;
+using wref_cascade = std::weak_ptr<tweetCascade> ;
 
 inline bool operator<(const tweetCascade& first,const tweetCascade& second) { return (first.last_tweet_time < second.last_tweet_time);} //Compares cascades by last tweet update time
 
-class ref_cascade_comparator {
-    public :
+struct ref_cascade_comparator {
     inline bool operator()(ref_cascade op1, ref_cascade op2) const {return *op1 < *op2;} 
 };
 
 using priority_queue = boost::heap::binomial_heap<ref_cascade, boost::heap::compare<ref_cascade_comparator>>;
 
 class tweetCascade{
+    public :
+        std::string cascade_id; //Identifiant de la cascade
+
     private:
         std::string message; //Initial tweet message
         std::vector<double> magnitudes; //Retweet times vector
 
     public:
         std::vector<double> times; //Retweet magnitudes vector
-        std::string cascade_id; //Identifiant de la cascade
-        priority_queue::handle_type location; //Position in priority queue
         double last_tweet_time;
         double seuil_expiration;
+        priority_queue::handle_type location; //Position in priority queue
 
         tweetCascade(const tweetCascade&) = default;
         tweetCascade& operator=(const tweetCascade&) = default; //Constructors
@@ -51,9 +53,7 @@ class tweetCascade{
         inline bool isAlive(tweetoscope::Tweet const& tweet) {return ((tweet.time - this->last_tweet_time)< seuil_expiration);}   
 
         std::string toSeries(double time); //Creates a JSON representation of the cascade time series at a given time   
-        std::string toSize(); //Creates a JSON representation of a terminated cascade size 
-
-        friend std::ostream& operator<<(std::ostream& os, tweetCascade const& cascade);         
+        std::string toSize(); //Creates a JSON representation of a terminated cascade size     
 };
 
 }

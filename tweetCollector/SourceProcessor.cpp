@@ -18,8 +18,7 @@ tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetosc
         {
             // we initialize an empty map
             for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){ 
-                std::queue<tweetoscope::wref_cascade> empty_queue;
-                partial_cascade_map[*iter] = empty_queue;
+                partial_cascade_map[*iter] = std::queue<tweetoscope::wref_cascade>(); //We initialise partial cascade map with empty queues
             }
         }
 
@@ -30,7 +29,6 @@ void tweetoscope::Processor::extractExpired(tweetoscope::Tweet const& tweet){
         auto ref = cascade_queue.top();
         if (!(ref->isAlive(tweet))){
             double t_end = ref->last_tweet_time;
-            double size = (ref->times).size();
             if((ref->times).size()>=min_cascade_size){
                 serial.post(ref, t_end);
                 sizal.post(ref, timewindows);
@@ -56,7 +54,7 @@ void tweetoscope::Processor::postPartials(tweetoscope::Tweet const& tweet){
                 }              
             }
         }
-    }
+}
 
 //create new cascade or update existing one 
 void tweetoscope::Processor::updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id){

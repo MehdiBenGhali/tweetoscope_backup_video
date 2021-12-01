@@ -25,13 +25,3 @@ std::string tweetoscope::tweetCascade::toSize(){
     + "\"n_tot\":" + ///to do size
     + "," + "\"t_end\":" + std::to_string(last_tweet_time) + "}";
 }
-
-std::ostream& tweetoscope::operator<<(std::ostream & os, tweetoscope::tweetCascade const& cascade){
-    os << "Id : " << cascade.cascade_id <<" | message initial: "<< cascade.message << std::endl;
-    auto it_t = cascade.times.begin();
-    for (auto it_m = cascade.magnitudes.begin() ; it_m != cascade.magnitudes.end(); ++it_m, ++it_t){
-        os << "magnitude : " << (*it_m) << " | time : " << (*it_t) << std::endl;
-    }
-    os << std::endl;
-    return os;
-}
