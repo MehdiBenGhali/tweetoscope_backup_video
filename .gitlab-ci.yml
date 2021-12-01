@@ -16,3 +16,4 @@ build_package_job:
         - docker build -t tim0bis/tweetoscope_project_2021:gaml -f docker/Dockerfile_gaml .
         - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PWD $DOCKERHUB
         - docker push tim0bis/tweetoscope_project_2021:gaml
+
