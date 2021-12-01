@@ -4,6 +4,9 @@ stages:
     - build_estimator
     - build_predictor
 
+  services:
+    - docker:dind
+
 build_package_job:
     stage: test
     tags:
