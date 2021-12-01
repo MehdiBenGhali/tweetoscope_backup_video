@@ -1,0 +1,9 @@
+#kafka
+argparse
+json
+kafka
+logger
+
+#estimator
+numpy
+scipy.optimize
