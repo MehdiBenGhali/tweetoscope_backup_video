@@ -8,10 +8,8 @@ tweetoscope::tweetConsumer::tweetConsumer(tweetoscope::params::collector params)
 	: cppkafka::Consumer(
 						 cppkafka::Configuration({
 							 					  {"bootstrap.servers", params.kafka.brokers},
-												   /*
 												  {"auto.offset.reset", params.consumerConfig.offset_reset},
-												  { "group.id", params.consumerConfig.group_id }
-												  */
+												  { "group.id", params.consumerConfig.group_id }  
 						 						 })
 						), 
 	  topic(params.topic.in), subscribed(false) {}

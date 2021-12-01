@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SourceProcessor.hpp"
 #include "tweet.hpp"
 
 #include <memory>
@@ -10,19 +9,17 @@
 
 namespace tweetoscope {
 
-class tweetCascade;
+struct tweetCascade;
 using ref_cascade = std::shared_ptr<tweetCascade>;
 using wref_cascade = std::weak_ptr<tweetCascade> ;
 
-inline bool operator<(const tweetCascade& first,const tweetCascade& second) { return (first.last_tweet_time < second.last_tweet_time);} //Compares cascades by last tweet update time
-
 struct ref_cascade_comparator {
-    inline bool operator()(ref_cascade op1, ref_cascade op2) const {return *op1 < *op2;} 
+    bool operator()(ref_cascade op1, ref_cascade op2)const; 
 };
 
 using priority_queue = boost::heap::binomial_heap<ref_cascade, boost::heap::compare<ref_cascade_comparator>>;
 
-class tweetCascade{
+struct tweetCascade{
     public :
         std::string cascade_id; //Identifiant de la cascade
 
@@ -53,7 +50,9 @@ class tweetCascade{
         inline bool isAlive(tweetoscope::Tweet const& tweet) {return ((tweet.time - this->last_tweet_time)< seuil_expiration);}   
 
         std::string toSeries(double time); //Creates a JSON representation of the cascade time series at a given time   
-        std::string toSize(); //Creates a JSON representation of a terminated cascade size     
+        std::string toSize(); //Creates a JSON representation of a terminated cascade size    
+
+        bool operator<(tweetCascade& other); //Compares cascades by last tweet update time 
 };
 
 }

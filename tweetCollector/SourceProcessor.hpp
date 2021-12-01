@@ -29,7 +29,7 @@ class Processor{
         double expiration_time;
         std::vector<double> timewindows;
         unsigned int this_collection_source; 
-        int min_cascade_size;
+        double min_cascade_size;
 
         //Collections 
         tweetoscope::priority_queue cascade_queue;
@@ -40,8 +40,8 @@ class Processor{
         Processor& operator=(const Processor&) = default; //Default constructors
 
         //Constructor from params
-        Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer& serial,
-                    tweetoscope::size_Producer& sizal, int collection_source);
+        Processor(tweetoscope::serie_Producer& serial,tweetoscope::size_Producer& sizal,
+                    tweetoscope::params::collector params, int collection_source);
 
         ~Processor(){}; //Destructor
 

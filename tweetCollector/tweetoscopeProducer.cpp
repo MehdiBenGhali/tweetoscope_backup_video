@@ -6,8 +6,8 @@
 #include <memory>
 
 //Constructor from builder and producer params
-tweetoscope::serie_Producer::serie_Producer(std::string& topic_name, Configuration& config)
-    : cppkafka::Producer(config), topic(topic) {}
+tweetoscope::serie_Producer::serie_Producer(std::string& topic_name, cppkafka::Configuration& config)
+    : cppkafka::Producer(config), topic(topic_name) {}
 
 //Constructor from params collector
 tweetoscope::serie_Producer::serie_Producer(const tweetoscope::params::collector& params)
@@ -26,11 +26,12 @@ tweetoscope::serie_Producer::serie_Producer(const tweetoscope::params::collector
 void tweetoscope::serie_Producer::post(tweetoscope::ref_cascade const& rcascade,double const& obs_time){
 	std::string payload =rcascade->toSeries(obs_time);
     this->produce(MessageBuilder(topic).payload(payload));
+	this->flush();
 }
 
 //Constructor from builder and producer params
-tweetoscope::size_Producer::size_Producer(std::string& topic_name, Configuration& config)
-    : cppkafka::Producer(config), topic(topic) {}
+tweetoscope::size_Producer::size_Producer(std::string& topic_name,  cppkafka::Configuration& config)
+    : cppkafka::Producer(config), topic(topic_name) {}
 
 //Constructor from params collector object
 tweetoscope::size_Producer::size_Producer(const tweetoscope::params::collector& params)
@@ -51,5 +52,6 @@ void tweetoscope::size_Producer::post(tweetoscope::ref_cascade const& rcascade, 
 		std::string cle = std::to_string(obs_time);
 		std::string payload = rcascade->toSize();
         this->produce(MessageBuilder(topic).key(cle).payload(payload));
+		this->flush();
     }
 }
