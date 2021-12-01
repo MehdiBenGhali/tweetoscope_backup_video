@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
   tweetConsumer.subscribeTopic();
 
   // Create producers
-  tweetoscope::size_Producer sizal(params, "out_properties");
-  tweetoscope::serie_Producer  serial(params, "out_series");
+  tweetoscope::size_Producer sizal= tweetoscope::size_Producer::size_Producer(params, "out_properties");
+  tweetoscope::serie_Producer  serial= tweetoscope::serie_Producer::serie_Producer(params, "out_series");
 
   std::map<int,tweetoscope::Processor*> processor_map;
 
