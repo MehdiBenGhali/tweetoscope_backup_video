@@ -29,8 +29,8 @@ void tweetoscope::Processor::extractExpired(tweetoscope::Tweet const& tweet){
     while(!cascade_queue.empty()) {
         auto ref = cascade_queue.top();
         if (!(ref->isAlive(tweet))){
-            int t_end = ref->last_tweet_time;
-            int size = (ref->times).size();
+            double t_end = ref->last_tweet_time;
+            double size = (ref->times).size();
             if((ref->times).size()>=min_cascade_size){
                 serial.post(ref, t_end);
                 sizal.post(ref, timewindows);
