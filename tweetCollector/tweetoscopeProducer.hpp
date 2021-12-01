@@ -14,10 +14,6 @@ using namespace cppkafka ;
 
 namespace tweetoscope {
 
-using wref_cascade = std::weak_ptr<tweetoscope::tweetCascade> ;
-using ref_cascade = std::shared_ptr<tweetoscope::tweetCascade> ;
-
-
 struct serie_Producer : public cppkafka::Producer {
     private:
         std::string topic;
@@ -27,7 +23,7 @@ struct serie_Producer : public cppkafka::Producer {
         serie_Producer(const tweetoscope::params::collector& params); //Constructor from params collector object
         serie_Producer(const tweetoscope::params::collector& params, std::string& out_category); //Constructor from params collector object with output topic specification
 
-        void post(ref_cascade const& rcascade, double const& obs_time); //Produces a cascade as a tweet series
+        void post(tweetoscope::ref_cascade const& rcascade, double const& obs_time); //Produces a cascade as a tweet series
 };
 
 using times_vect = std::vector<double> ;
@@ -41,6 +37,6 @@ struct size_Producer : public cppkafka::Producer {
         size_Producer(const tweetoscope::params::collector& params); //Constructor from params collector object
         size_Producer(const tweetoscope::params::collector& params, std::string& out_category); //Constructor from params collector object with output topic specification
 
-        void post(ref_cascade const& rcascade, times_vect const& timewindows); //Produces a cascade size message for each predictor
+        void post(tweetoscope::ref_cascade const& rcascade, times_vect const& timewindows); //Produces a cascade size message for each predictor
 };
 }
