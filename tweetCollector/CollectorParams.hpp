@@ -35,9 +35,13 @@ namespace tweetoscope {
       struct Cascade {
 	std::size_t min_cascade_size;
       };
-    }
     
-      
+	  struct consumerConfig{
+	std::string offset_reset;
+	std::string group_id;
+	  };
+	}
+
     struct collector {
     private:
       std::string current_section;
@@ -66,6 +70,7 @@ namespace tweetoscope {
       section::Topic   topic;
       section::Times   times;
       section::Cascade cascade;
+	  section::consumerConfig consumerConfig;
 
       collector(const std::string& config_filename) {
 	std::ifstream ifs(config_filename.c_str());
@@ -92,6 +97,10 @@ namespace tweetoscope {
 	    }
 	    else if(current_section == "cascade") {
 	      if (key == "min_cascade_size")   cascade.min_cascade_size = std::stoul(val);
+	    }
+		else if(current_section == "consumerConfig") {
+	      if     (key == "offset_reset")    consumerConfig.offset_reset = val;
+	      else if(key == "group_id")     consumerConfig.group_id = val;
 	    }
 	  }
 	}

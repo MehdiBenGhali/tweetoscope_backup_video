@@ -25,3 +25,10 @@ std::string tweetoscope::tweetCascade::toSize(){
     + "\"n_tot\":" + ///to do size
     + "," + "\"t_end\":" + std::to_string(last_tweet_time) + "}";
 }
+
+bool tweetoscope::tweetCascade::operator<(tweetoscope::tweetCascade& other){
+    return last_tweet_time < other.last_tweet_time;
+}
+
+bool tweetoscope::ref_cascade_comparator::operator()(tweetoscope::ref_cascade op1, tweetoscope::ref_cascade op2) const 
+{return *(op1) < *(op2);}

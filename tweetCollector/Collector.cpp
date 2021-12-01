@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Usage : " << argv[0] << " <config-filename>" << std::endl;
     return 0;
   }
+  
   tweetoscope::params::collector params(argv[1]);
   
   // Create Consumer
@@ -36,7 +37,7 @@ int main(int argc, char* argv[]) {
         tweetoscope::Tweet tweet;
         auto cascade_id = std::string(msg.get_key());
         if ( processor_map.find(tweet.source) == processor_map.end()) { //this source does not have a processor
-          processor_map[tweet.source] = new tweetoscope::Processor(params, serial, sizal, tweet.source); //to each source its processor 
+          processor_map[tweet.source] = new tweetoscope::Processor(serial, sizal, params, tweet.source); //to each source its processor 
         }
         processor_map[tweet.source]->process(tweet,cascade_id); //we run the engine corresponding to this source
     }
