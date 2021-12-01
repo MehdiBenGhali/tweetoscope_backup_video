@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer serial,
-    tweetoscope::size_Producer sizal, int collection_source) :
+tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer& serial,
+    tweetoscope::size_Producer& sizal, int collection_source) :
         sizal(sizal),
         serial(serial),
         expiration_time(params.times.terminated),

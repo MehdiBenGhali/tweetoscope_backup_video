@@ -7,15 +7,15 @@
 
 //Constructor from builder and producer params
 tweetoscope::serie_Producer::serie_Producer(std::string& topic_name, Configuration& config)
-    : cppkafka::Producer::Producer(config), topic(topic) {}
+    : cppkafka::Producer(config), topic(topic) {}
 
 //Constructor from params collector
 tweetoscope::serie_Producer::serie_Producer(const tweetoscope::params::collector& params)
-    : cppkafka::Producer::Producer({{"bootstrap.servers", params.kafka.brokers}}), topic(params.topic.in) {}
+    : cppkafka::Producer({{"bootstrap.servers", params.kafka.brokers}}), topic(params.topic.in) {}
 
 //Constructor from params collector object with output topic specification
 tweetoscope::serie_Producer::serie_Producer(const tweetoscope::params::collector& params, std::string& out_category)
-	: cppkafka::Producer::Producer({{"bootstrap.servers", params.kafka.brokers}}) {
+	: cppkafka::Producer({{"bootstrap.servers", params.kafka.brokers}}) {
 		if (out_category == "out_properties")
 			topic = params.topic.out_properties;
 		else if (out_category == "out_series")
@@ -30,15 +30,15 @@ void tweetoscope::serie_Producer::post(tweetoscope::ref_cascade const& rcascade,
 
 //Constructor from builder and producer params
 tweetoscope::size_Producer::size_Producer(std::string& topic_name, Configuration& config)
-    : cppkafka::Producer::Producer(config), topic(topic) {}
+    : cppkafka::Producer(config), topic(topic) {}
 
 //Constructor from params collector object
 tweetoscope::size_Producer::size_Producer(const tweetoscope::params::collector& params)
-    : cppkafka::Producer::Producer({{"bootstrap.servers", params.kafka.brokers}}), topic(params.topic.in) {}
+    : cppkafka::Producer({{"bootstrap.servers", params.kafka.brokers}}), topic(params.topic.in) {}
 
 //Constructor from params collector object with output topic specification
 tweetoscope::size_Producer::size_Producer(const tweetoscope::params::collector& params, std::string& out_category)
-	: cppkafka::Producer::Producer({{"bootstrap.servers", params.kafka.brokers}}) {
+	: cppkafka::Producer({{"bootstrap.servers", params.kafka.brokers}}) {
 		if (out_category == "out_properties")
 			topic = params.topic.out_properties;
 		else if (out_category == "out_series")

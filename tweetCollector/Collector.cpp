@@ -3,6 +3,8 @@
 #include "tweetoscopeProducer.hpp"
 #include "CollectorParams.hpp"
 
+#include <istream>
+
 int main(int argc, char* argv[]) {
 
   // get params from config file
@@ -17,8 +19,11 @@ int main(int argc, char* argv[]) {
   tweetConsumer.subscribeTopic();
 
   // Create producers
-  tweetoscope::size_Producer sizal= tweetoscope::size_Producer::size_Producer(params, "out_properties");
-  tweetoscope::serie_Producer  serial= tweetoscope::serie_Producer::serie_Producer(params, "out_series");
+  std::string outputType;
+  outputType = "out_properties";
+  tweetoscope::size_Producer sizal(params, outputType);
+  outputType = "out_series";
+  tweetoscope::serie_Producer serial(params, outputType);
 
   std::map<int,tweetoscope::Processor*> processor_map;
 
@@ -30,8 +35,6 @@ int main(int argc, char* argv[]) {
         // transform msg as cascade_id, tweet
         tweetoscope::Tweet tweet;
         auto cascade_id = std::string(msg.get_key());
-        auto istr = std::istringstream(std::string(msg.get_payload()));
-        istr >> tweet;
         if ( processor_map.find(tweet.source) == processor_map.end()) { //this source does not have a processor
           processor_map[tweet.source] = new tweetoscope::Processor(params, serial, sizal, tweet.source); //to each source its processor 
         }

@@ -13,7 +13,10 @@ class tweetCascade;
 
 using ref_cascade = std::shared_ptr<tweetCascade>;
 
+inline bool operator<(const tweetCascade& first,const tweetCascade& second) { return (first.last_tweet_time < second.last_tweet_time);} //Compares cascades by last tweet update time
+
 class ref_cascade_comparator {
+    public :
     inline bool operator()(ref_cascade op1, ref_cascade op2) const {return *op1 < *op2;} 
 };
 
@@ -39,7 +42,6 @@ class tweetCascade{
         magnitudes(std::vector<double>(tweet.magnitude)), times(std::vector<double>(tweet.time)),
         last_tweet_time(tweet.time), seuil_expiration(seuil_expiration) {}; //Constructor from a tweet
 
-        inline bool operator<(const tweetCascade& other) const { return (this->last_tweet_time < other.last_tweet_time);} //Compares cascades by last tweet update time
         //Updates a cascade with an incoming tweet
         inline void update(tweetoscope::Tweet const& tweet) {
             magnitudes.push_back(tweet.magnitude);

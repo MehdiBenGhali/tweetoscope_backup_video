@@ -15,13 +15,14 @@
 
 namespace tweetoscope {
 
-using wref_cascade = std::weak_ptr<tweetCascade>;
+class serie_Producer;
+class size_Producer;
 
 class Processor{
     private : 
         //Producers 
-        tweetoscope::serie_Producer serial;
-        tweetoscope::size_Producer sizal;
+        tweetoscope::serie_Producer& serial;
+        tweetoscope::size_Producer& sizal;
         //tweetoscope::log_producer logger """to implement"""
 
         //parameters
@@ -32,28 +33,28 @@ class Processor{
 
         //Collections 
         tweetoscope::priority_queue cascade_queue;
-        std::map<std::string, wref_cascade> cascades_map;
-        std::map<double, std::queue<wref_cascade>> partial_cascade_map;
+        std::map<std::string, std::weak_ptr<tweetoscope::tweetCascade>> cascades_map;
+        std::map<double, std::queue<std::weak_ptr<tweetoscope::tweetCascade>>> partial_cascade_map;
 
     public : 
         Processor& operator=(const Processor&) = default; //Default constructors
 
         //Constructor from params
-        Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer serial,
-                    tweetoscope::size_Producer sizal, int collection_source);
+        Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer& serial,
+                    tweetoscope::size_Producer& sizal, int collection_source);
 
         ~Processor(){}; //Destructor
 
         //Run processor treatments upon tweet arrival
-        void process(tweetoscope::Tweet const& tweet, std::string const& cascade_id){}; 
+        void process(tweetoscope::Tweet const& tweet, std::string const& cascade_id); 
 
         //Extracts terminated cascades and publishes them
-        void extractExpired(tweetoscope::Tweet const& tweet){}; 
+        void extractExpired(tweetoscope::Tweet const& tweet); 
 
         //Post partial active cascades on time of tweet
-        void postPartials(tweetoscope::Tweet const& tweet){};
+        void postPartials(tweetoscope::Tweet const& tweet);
 
         //create new cascade or update existing one 
-        void updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id){};
+        void updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id);
 };
 }
