@@ -1,5 +1,3 @@
-#pragma once
-
 #include "SourceProcessor.hpp"
 
 #include <memory>
@@ -9,36 +7,34 @@
 #include <string>
 #include <vector>
 
-tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetoscope::serie_producer& serial,
-    tweetoscope::size_producer& sizal, int collection_source):
+tweetoscope::Processor::Processor(tweetoscope::params::collector params,tweetoscope::serie_Producer& serial,
+    tweetoscope::size_Producer& sizal, int collection_source) :
         sizal(sizal),
         serial(serial),
         expiration_time(params.times.terminated),
-        times(params.times.observation),
-        this_coll_source(coll_source),
+        timewindows(params.times.observation),
+        this_collection_source(collection_source),
         min_cascade_size(params.cascade.min_cascade_size)
         {
             // we initialize an empty map
             for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){ 
-                std::queue<wref_cascade> empty_queue;
-                partial_cascade_map[*iter] = empty_queue;
+                partial_cascade_map[*iter] = std::queue<tweetoscope::wref_cascade>(); //We initialise partial cascade map with empty queues
             }
         }
 
 
 //Extracts terminated cascades and publishes them
 void tweetoscope::Processor::extractExpired(tweetoscope::Tweet const& tweet){
-    while(!queue.empty()) {
-        auto ref = queue.top();
-        if (!(ref->isAlive(tweet)){
-            t_end = (ref->last_tweet_time).back();
-            size = (ref->times).size();
+    while(!cascade_queue.empty()) {
+        auto ref = cascade_queue.top();
+        if (!(ref->isAlive(tweet))){
+            double t_end = ref->last_tweet_time;
             if((ref->times).size()>=min_cascade_size){
-                serial.produce(ref, t_end);
-                sizal.produce(ref, times);
+                serial.post(ref, t_end);
+                sizal.post(ref, timewindows);
             }
-            queue.pop(); //Remove terminated cascade from queue
-            ref.reset() //Decrement cascade pointer
+            cascade_queue.pop(); //Remove terminated cascade from queue
+            ref.reset(); //Decrement cascade pointer
         } else { 
             break;
         }
@@ -49,36 +45,35 @@ void tweetoscope::Processor::extractExpired(tweetoscope::Tweet const& tweet){
 void tweetoscope::Processor::postPartials(tweetoscope::Tweet const& tweet){
     for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){
         auto partial_queue = partial_cascade_map[*iter] ;
-        while(!(partial_queue.empty()) && (partial_queue.front().isAlive(tweet)) {
+        while(!(partial_queue.empty()) && (partial_queue.front().lock()->isAlive(tweet))
             && (((partial_queue.front().lock())->times).front() + *iter)<=tweet.time) {
                 auto wrcascade = partial_queue.front();
                 partial_queue.pop();
-                if wrcascade.lock() {
-                    serial.produce(wrcascade.lock(),*iter);
+                if (wrcascade.lock()) {
+                    serial.post(wrcascade.lock(),*iter);
                 }              
             }
         }
-    }
 }
 
 //create new cascade or update existing one 
 void tweetoscope::Processor::updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id){
     if (cascades_map.find(cascade_id)==cascades_map.end() && tweet.type=="tweet"){ // New Cascade
-        tweetoscope::ref_cascade new_casc = std::make_shared<tweetoscope::Cascade>(cascade_id,tweet);
-        new_casc->setLocation(cascade_queue.push(new_casc)); // Add cascade to priority queue  ""!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!""
+        tweetoscope::ref_cascade new_casc = std::make_shared<tweetoscope::tweetCascade>(cascade_id,tweet,expiration_time);
+        ///new_casc->setLocation(cascade_queue.push(new_casc)); // Add cascade to priority queue  ""!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!""
         cascade_queue.update(new_casc->location, new_casc);  // Update priority queue with right value
         cascades_map[cascade_id] = new_casc;                         // Add cascade to map
         for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){
             partial_cascade_map[*iter].push(new_casc); //Add partial cascades of cascade to map
         }
     } else if (!(cascades_map.find(cascade_id)==cascades_map.end()) && tweet.type=="retweet") { //Retweet Update 
-        if(cascades_map[cascade_id].isAlive(tweet)){                        // if cascade not expired
+        if(cascades_map[cascade_id].lock()->isAlive(tweet)){                        // if cascade not expired
             auto this_casc = cascades_map[cascade_id].lock();      // lock weak_ptr
             this_casc->update(tweet);                              // update the cascade
             cascade_queue.update(this_casc->location, this_casc);  // update the priority queue
         } else {
             cascades_map.erase(cascade_id);                        // if expired, remove from ref map
-            cascades_partial.erase(cascade_id);                    // and remove partial cascades
+            ///partial_cascade_map.erase(cascade_id);                    // and remove partial cascades """"""""""""""""""""""!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }  
 }

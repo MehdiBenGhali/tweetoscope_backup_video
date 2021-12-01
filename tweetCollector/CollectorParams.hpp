@@ -6,7 +6,6 @@
 
 */
 
-
 #pragma once
 
 #include <tuple>
@@ -29,7 +28,7 @@ namespace tweetoscope {
       };
       
       struct Times {
-	std::vector<std::size_t> observation;
+	std::vector<double> observation;
 	std::size_t              terminated;
       };
 
@@ -74,8 +73,11 @@ namespace tweetoscope {
 	  throw std::runtime_error(std::string("Cannot open \"") + config_filename + "\" for reading parameters.");
 	ifs.exceptions(std::ios::failbit | std::ios::badbit | std::ios::eofbit);
 	try {
+	  std::string key, val;
 	  while(true) {
-	    auto [key, val] = parse_value(ifs);
+	    auto scrap = parse_value(ifs);
+		key=scrap.first;
+		val=scrap.second;
 	    if(current_section == "kafka") {
 	      if(key == "brokers") kafka.brokers = val;
 	    }

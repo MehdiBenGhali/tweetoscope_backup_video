@@ -32,7 +32,7 @@ namespace tweetoscope {
       std::getline(is, tag, '"'); // Eats until next ", that is eaten but not stored into tag.
       is >> c;  // eats ":"
       if     (tag == "type")    tweet.type = get_string_val(is);
-      else if(tag == "msg")     tweet.msg  = get_string_val(is);
+      else if(tag == "msg")     tweet.message  = get_string_val(is);
       else if(tag == "info")    tweet.info = get_string_val(is);
       else if(tag == "t")       is >> tweet.time;
       else if(tag == "m")       is >> tweet.magnitude;

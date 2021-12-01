@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ostream>
 #include "cppkafka/cppkafka.h"
-#include "tweetoscopeCollectorParams.hpp"
+#include "CollectorParams.hpp"
 
 namespace tweetoscope {
 class tweetConsumer : public cppkafka::Consumer {
