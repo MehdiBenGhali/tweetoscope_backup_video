@@ -1,5 +1,5 @@
 stages:
-    - test
+    - build_gaml
     - build_collector
     - build_estimator
     - build_predictor
@@ -8,9 +8,11 @@ stages:
     - docker:dind
 
 build_package_job:
-    stage: test
+    stage: build_gaml
     tags:
-    - docker
-    image: hello-world
+        - docker
+    image: docker:latest
     script:
-    - docker run hello-world
+        - docker build -t tim0bis/tweetoscope_project_2021:gaml -f docker/Dockerfile_gaml .
+        - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PWD $DOCKERHUB
+        - docker push tim0bis/tweetoscope_project_2021:gaml
