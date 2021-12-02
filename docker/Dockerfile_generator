@@ -10,8 +10,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
 #Adding files
-ADD ./tweetoscope_2021_07/params.config .
-ADD ./tweetoscope_2021_07/tweet-generator .
+WORKDIR /tweetoscope_2021_0/
+ADD ./params.config .
+ADD ./tweet-generator .
+ADD ./news-data.csv .
+ADD ./news-index.csv .
 
 #Running generator
-RUN ./tweet-generator generator.params
+RUN ./tweet-generator params.config

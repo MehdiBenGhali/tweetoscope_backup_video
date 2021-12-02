@@ -1,6 +1,7 @@
 stages:
 #    - build_gaml
     - kafka_host
+    - build_generator
     - build_collector
     - build_estimator
     - build_predictor
@@ -24,7 +25,22 @@ buil_kafka_job :
         - docker
     image : docker:latest
     script:
-#        - docker run --rm -it --network host zookeeper
-        - docker build -t kafka -f docker/Dockerfile_kafka .
-        - docker run --rm -it --network host kafka
+        - docker run --rm -it --network host zookeeper
+        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
+        - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
 
+buil_generator_job :
+    stage : build_generator
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
+
+buil_collector_job :
+    stage : build_collector
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
