@@ -20,7 +20,7 @@ build_gaml_job:
         - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  .
         - docker push $CI_REGISTRY_IMAGE/gaml
     only :
-        change :
+        changes :
             - docker/Dockerfile_gaml
 
 
@@ -38,8 +38,8 @@ build_kafka_job :
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
 #        - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
     only :
-        change :
-            - docker/Dockerfile_kafka
+        changes :
+            - Kafka/*
 
 build_generator_job :
     stage : build_generator
@@ -53,8 +53,8 @@ build_generator_job :
         - docker push $CI_REGISTRY_IMAGE/generator
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
     only :
-        change :
-            - docker/Dockerfile_generator
+        changes :
+            - Generator/*
 
 build_collector_job :
     stage : build_collector
@@ -68,8 +68,8 @@ build_collector_job :
         - docker push $CI_REGISTRY_IMAGE/collector
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
     only :
-        change :
-            - docker/Dockerfile_collector
+        changes :
+            - Collector/*
 
 build_estimator_job :
     stage : build_estimator
@@ -82,6 +82,5 @@ build_estimator_job :
         - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  .
         - docker push $CI_REGISTRY_IMAGE/estimator
     only :
-        change :
-            - docker/Dockerfile_estimator
-            - estimator/*
+        changes :
+            - Estimator/*
