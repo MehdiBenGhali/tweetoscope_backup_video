@@ -21,7 +21,7 @@ services:
 buil_kafka_job :
     stage : kafka_host
     tags:
-        -docker
+        - docker
     image : docker:latest
     script:
         - docker run --rm -it --network host zookeeper
