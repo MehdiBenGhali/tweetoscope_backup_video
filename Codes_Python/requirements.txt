@@ -3,7 +3,15 @@ argparse
 json
 kafka
 logger
+pickle
 
 #estimator
 numpy
 scipy.optimize
+
+#logger 
+termcolor
+
+#learner 
+pandas 
+scikit-learn
