@@ -12,9 +12,10 @@ kafka-python
 
 ### Adding files ###
 
-ADD ./tweetoscope_2021_07/estimator/estimator_header.py .
-ADD ./tweetoscope_2021_07/estimator/estimator.py .
-ADD ./tweetoscope_2021_07/estimator/cosumer_setup.py .
+WORKDIR /tweetoscope_2021_07/
+ADD ./estimator/estimator_header.py .
+ADD ./estimator/estimator.py .
+ADD ./estimator/consumer_setup.py .
 
 ### Running command ###
 CMD python3 estimator.py --broker-list kafka-service:9092 --obs-wind 300

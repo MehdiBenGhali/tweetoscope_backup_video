@@ -18,7 +18,7 @@ build_gaml_job:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  .
-        - docker push $CI_REGISTRY_IMAGE/kafka
+        - docker push $CI_REGISTRY_IMAGE/gaml
 
 
 buil_kafka_job :
@@ -29,7 +29,7 @@ buil_kafka_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_kafka  .
+        - docker build -t $CI_REGISTRY_IMAGE/kafka -f Dockerfile_kafka  .
         - docker push $CI_REGISTRY_IMAGE/kafka
 #        - docker run --rm -it --network host zookeeper
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
@@ -43,8 +43,8 @@ buil_generator_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_generator  .
-        - docker push $CI_REGISTRY_IMAGE/kafka
+        - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile_generator  .
+        - docker push $CI_REGISTRY_IMAGE/generator
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
 
 buil_collector_job :
@@ -55,6 +55,17 @@ buil_collector_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_collector  .
-        - docker push $CI_REGISTRY_IMAGE/kafka
+        - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile_collector  .
+        - docker push $CI_REGISTRY_IMAGE/collector
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
+
+buil_collector_job :
+    stage : build_estimator
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - cd docker
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  .
+        - docker push $CI_REGISTRY_IMAGE/estimator
