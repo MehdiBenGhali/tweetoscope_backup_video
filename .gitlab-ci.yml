@@ -1,5 +1,5 @@
 stages:
-#    - build_gaml
+    - build_gaml
     - kafka_host
     - build_generator
     - build_collector
@@ -9,15 +9,17 @@ stages:
 services:
     - docker:dind
 
-#build_gaml_job:
-#    stage: build_gaml
-#    tags:
-#        - docker
-#    image: docker:latest
-#    script:
-#        - docker build -t tim0bis/tweetoscope_project_2021:gaml -f docker/Dockerfile_gaml .
-#        - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PWD $DOCKERHUB
-#        - docker push tim0bis/tweetoscope_project_2021:gaml
+build_gaml_job:
+    stage: build_gaml
+    tags:
+        - docker
+    image: docker:latest
+    script:
+        - cd docker
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  .
+        - docker push $CI_REGISTRY_IMAGE/kafka
+
 
 buil_kafka_job :
     stage : kafka_host
@@ -25,9 +27,13 @@ buil_kafka_job :
         - docker
     image : docker:latest
     script:
+        - cd docker
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_kafka  .
+        - docker push $CI_REGISTRY_IMAGE/kafka
 #        - docker run --rm -it --network host zookeeper
-        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
-        - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
+#        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
+#        - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
 
 buil_generator_job :
     stage : build_generator
@@ -35,7 +41,11 @@ buil_generator_job :
         - docker
     image : docker:latest
     script:
-        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
+        - cd docker
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_generator  .
+        - docker push $CI_REGISTRY_IMAGE/kafka
+#        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
 
 buil_collector_job :
     stage : build_collector
@@ -43,4 +53,8 @@ buil_collector_job :
         - docker
     image : docker:latest
     script:
-        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
+        - cd docker
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_collector  .
+        - docker push $CI_REGISTRY_IMAGE/kafka
+#        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .

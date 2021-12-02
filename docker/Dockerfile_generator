@@ -17,4 +17,4 @@ ADD ./news-data.csv .
 ADD ./news-index.csv .
 
 #Running generator
-RUN ./tweet-generator params.config
+#RUN ./tweet-generator params.config
