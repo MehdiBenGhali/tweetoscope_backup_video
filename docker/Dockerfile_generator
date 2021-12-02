@@ -1,0 +1,20 @@
+FROM tim0bis/tweetoscope_project_2021:gaml
+
+#in gaml we have : ubuntu basis, kafka, gaml
+
+# Set time
+ENV TZ=Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+#C++ requirements for collector
+
+
+#Adding files
+WORKDIR /tweetoscope_2021_0/
+ADD ./params.config .
+ADD ./tweet-generator .
+ADD ./news-data.csv .
+ADD ./news-index.csv .
+
+#Running generator
+#RUN ./tweet-generator params.config

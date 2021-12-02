@@ -1,0 +1,21 @@
+FROM python:3.8-slim
+
+# Set time
+ENV TZ=Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+#Python Libraries
+RUN pip install --upgrade pip
+RUN pip3 install numpy \
+scipy \
+kafka-python
+
+### Adding files ###
+
+WORKDIR /tweetoscope_2021_07/
+ADD ./estimator/estimator_header.py .
+ADD ./estimator/estimator.py .
+ADD ./estimator/consumer_setup.py .
+
+### Running command ###
+CMD python3 estimator.py --broker-list kafka-service:9092 --obs-wind 300
