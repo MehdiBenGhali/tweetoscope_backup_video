@@ -14,6 +14,7 @@ kafka-python
 
 ADD ./tweetoscope_2021_07/estimator/estimator_header.py .
 ADD ./tweetoscope_2021_07/estimator/estimator.py .
+ADD ./tweetoscope_2021_07/estimator/cosumer_setup.py .
 
 ### Running command ###
 CMD python3 estimator.py --broker-list kafka-service:9092

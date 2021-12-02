@@ -1,0 +1,17 @@
+FROM tim0bis/tweetoscope_project_2021:gaml
+
+#in gaml we have : ubuntu basis, kafka, gaml
+
+# See https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes
+ENV TZ=Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+#setup java
+RUN apt-get install openjdk-17-jre-headless -y
+RUN apt update
+ENV JAVA_HOME /usr/lib/jvm/openjdk-17-jre-headless
+ENV PATH $PATH:$JAVA_HOME/bin
+
+#Setup network with kafka
+RUN wget https://gitlab-research.centralesupelec.fr/galtier//sae_lab_kafka/-/jobs/artifacts/master/raw/WikipediaActivityMonitor/target/Aggregator.jar?job=build_jar_job -O Aggregator.jar
+CMD java -jar Aggregator.jar localhost:9092 locale 30

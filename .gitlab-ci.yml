@@ -1,5 +1,6 @@
 stages:
-    - build_gaml
+#    - build_gaml
+    - kafka_host
     - build_collector
     - build_estimator
     - build_predictor
@@ -7,13 +8,23 @@ stages:
 services:
     - docker:dind
 
-build_package_job:
-    stage: build_gaml
+#build_gaml_job:
+#    stage: build_gaml
+#    tags:
+#        - docker
+#    image: docker:latest
+#    script:
+#        - docker build -t tim0bis/tweetoscope_project_2021:gaml -f docker/Dockerfile_gaml .
+#        - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PWD $DOCKERHUB
+#        - docker push tim0bis/tweetoscope_project_2021:gaml
+
+buil_kafka_job :
+    stage : kafka_host
     tags:
-        - docker
-    image: docker:latest
+        -docker
+    image : docker:latest
     script:
-        - docker build -t tim0bis/tweetoscope_project_2021:gaml -f docker/Dockerfile_gaml .
-        - docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PWD $DOCKERHUB
-        - docker push tim0bis/tweetoscope_project_2021:gaml
+        - docker run --rm -it --network host zookeeper
+        - docker build -t kafka -f docker/Dockerfile_kafka .
+        - docker run --rm -it --network host kafka
 
