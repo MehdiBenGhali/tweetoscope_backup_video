@@ -25,7 +25,7 @@ buil_kafka_job :
         - docker
     image : docker:latest
     script:
-        - docker run --rm -it --network host zookeeper
+#        - docker run --rm -it --network host zookeeper
         - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
         - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
 
