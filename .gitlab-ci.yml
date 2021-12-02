@@ -19,9 +19,12 @@ build_gaml_job:
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  .
         - docker push $CI_REGISTRY_IMAGE/gaml
+    only :
+        change :
+            - docker/Dockerfile_gaml
 
 
-buil_kafka_job :
+build_kafka_job :
     stage : kafka_host
     tags:
         - docker
@@ -34,8 +37,11 @@ buil_kafka_job :
 #        - docker run --rm -it --network host zookeeper
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
 #        - docker run --rm -it --network host tim0bis/tweetoscope_project_2021:kafka
+    only :
+        change :
+            - docker/Dockerfile_kafka
 
-buil_generator_job :
+build_generator_job :
     stage : build_generator
     tags:
         - docker
@@ -46,8 +52,11 @@ buil_generator_job :
         - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile_generator  .
         - docker push $CI_REGISTRY_IMAGE/generator
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
+    only :
+        change :
+            - docker/Dockerfile_generator
 
-buil_collector_job :
+build_collector_job :
     stage : build_collector
     tags:
         - docker
@@ -58,8 +67,11 @@ buil_collector_job :
         - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile_collector  .
         - docker push $CI_REGISTRY_IMAGE/collector
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
+    only :
+        change :
+            - docker/Dockerfile_collector
 
-buil_collector_job :
+build_estimator_job :
     stage : build_estimator
     tags:
         - docker
@@ -69,3 +81,7 @@ buil_collector_job :
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  .
         - docker push $CI_REGISTRY_IMAGE/estimator
+    only :
+        change :
+            - docker/Dockerfile_estimator
+            - estimator/*
