@@ -1,6 +1,6 @@
 FROM python:3.8-slim
 
-# See https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes
+# Set time
 ENV TZ=Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
