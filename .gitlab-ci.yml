@@ -24,7 +24,7 @@ buil_kafka_job :
         - docker
     image : docker:latest
     script:
-        - docker run --rm -it --network host zookeeper
+#        - docker run --rm -it --network host zookeeper
         - docker build -t kafka -f docker/Dockerfile_kafka .
         - docker run --rm -it --network host kafka
 
