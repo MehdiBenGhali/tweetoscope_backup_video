@@ -1,6 +1,6 @@
 FROM ubuntu
 
-# See https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes
+# Set time
 ENV TZ=Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
@@ -24,8 +24,6 @@ RUN apt-get install -y python-numpy
 RUN apt-get install -y coinor-libipopt1v5 
 RUN apt-get install -y coinor-libipopt-dev
 RUN apt-get update -y
-
-#C++
 
 #GAML
 #RUN echo "Installing GAML.."
