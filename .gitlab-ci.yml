@@ -6,7 +6,7 @@ stages:
     - build_estimator
     - build_learner
     - build_predictor
-
+    - build_logger
 
 services:
     - docker:dind
@@ -102,7 +102,7 @@ build_learner_job :
             - Predictor_Learner/*
 
 build_predictor_job :
-    stage : build_learner
+    stage : build_predictor
     tags:
         - docker
     image : docker:latest
