@@ -6,14 +6,14 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #Python Libraries
 RUN pip install --upgrade pip
-RUN pip3 install numpy \
-scipy \
-kafka-python
+RUN pip3 install numpy
+RUN pip3 install scipy
+RUN pip3 install kafka-python
 
 ### Adding files ###
 ADD ./estimator_header.py .
 ADD ./estimator.py .
-ADD ./consumer_setup.py .
+ADD ./logger.py .
 
 ### Running command ###
 CMD python3 estimator.py --broker-list kafka-service:9092 --obs-wind 300
