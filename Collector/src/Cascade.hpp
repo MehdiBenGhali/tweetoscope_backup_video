@@ -48,6 +48,7 @@ struct tweetCascade{
             last_tweet_time = tweet.time ;
             } 
         inline bool isAlive(tweetoscope::Tweet const& tweet) {return ((tweet.time - this->last_tweet_time)< seuil_expiration);}   
+        inline void setLocation(priority_queue::handle_type loc){location = loc;}
 
         std::string toSeries(double time); //Creates a JSON representation of the cascade time series at a given time   
         std::string toSize(); //Creates a JSON representation of a terminated cascade size    

@@ -60,7 +60,7 @@ void tweetoscope::Processor::postPartials(tweetoscope::Tweet const& tweet){
 void tweetoscope::Processor::updateCascades(tweetoscope::Tweet const& tweet, std::string const& cascade_id){
     if (cascades_map.find(cascade_id)==cascades_map.end() && tweet.type=="tweet"){ // New Cascade
         tweetoscope::ref_cascade new_casc = std::make_shared<tweetoscope::tweetCascade>(cascade_id,tweet,expiration_time);
-        ///new_casc->setLocation(cascade_queue.push(new_casc)); // Add cascade to priority queue  ""!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!""
+        new_casc->setLocation(cascade_queue.push(new_casc)); // Add cascade to priority queue  
         cascade_queue.update(new_casc->location, new_casc);  // Update priority queue with right value
         cascades_map[cascade_id] = new_casc;                         // Add cascade to map
         for (auto iter=timewindows.begin(); iter!=timewindows.end(); ++iter){
@@ -73,7 +73,7 @@ void tweetoscope::Processor::updateCascades(tweetoscope::Tweet const& tweet, std
             cascade_queue.update(this_casc->location, this_casc);  // update the priority queue
         } else {
             cascades_map.erase(cascade_id);                        // if expired, remove from ref map
-            ///partial_cascade_map.erase(cascade_id);                    // and remove partial cascades """"""""""""""""""""""!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //partial_cascade_map.erase(cascade_id);               // and remove partial cascades """"""""""""""""""""""!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }  
 }

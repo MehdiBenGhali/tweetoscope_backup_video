@@ -22,10 +22,9 @@ int main(int argc, char* argv[]) {
   // Create producers
   std::string outputType;
   outputType = "out_properties";
-  tweetoscope::size_Producer sizal(params, outputType);
+  tweetoscope::size_Producer sizal(params, outputType); //What we call "size" producers are producers for terminated cascades
   outputType = "out_series";
-  tweetoscope::serie_Producer serial(params, outputType);
-
+  tweetoscope::serie_Producer serial(params, outputType); //"series" producers are partial cascade series producers
   std::map<int,tweetoscope::Processor*> processor_map;
 
   while (true){
