@@ -17,7 +17,7 @@ build_gaml_job:
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  .
+        - docker build -t $CI_REGISTRY_IMAGE/gaml -f Dockerfile_gaml  ../
         - docker push $CI_REGISTRY_IMAGE/gaml
     only :
         changes :
@@ -32,7 +32,7 @@ build_kafka_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/kafka -f Dockerfile_kafka  .
+        - docker build -t $CI_REGISTRY_IMAGE/kafka -f Dockerfile_kafka  ../
         - docker push $CI_REGISTRY_IMAGE/kafka
 #        - docker run --rm -it --network host zookeeper
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:kafka -f docker/Dockerfile_kafka .
@@ -49,7 +49,7 @@ build_generator_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile_generator  .
+        - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile_generator  ../
         - docker push $CI_REGISTRY_IMAGE/generator
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:generator -f docker/Dockerfile_generator .
     only :
@@ -64,7 +64,7 @@ build_collector_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile_collector  .
+        - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile_collector  ../
         - docker push $CI_REGISTRY_IMAGE/collector
 #        - docker build --no-cache -t tim0bis/tweetoscope_project_2021:collector -f docker/Dockerfile_collector .
     only :
@@ -79,7 +79,7 @@ build_estimator_job :
     script:
         - cd docker
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-        - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  .
+        - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  ../
         - docker push $CI_REGISTRY_IMAGE/estimator
     only :
         changes :
