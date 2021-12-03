@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: generator-container
-        image: matthbriet/gen:latest
+        image: 
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: collector-container
-        image: matthbriet/collector:latest
+        image: 
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
       - name: estimator-container
-        image: matthbriet/estimator:latest
+        image: 
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -75,7 +75,7 @@ spec:
     spec:
       containers:
       - name: predictor-container
-        image: matthbriet/predictor:latest
+        image: 
         imagePullPolicy: Always
 
 ---
@@ -96,5 +96,5 @@ spec:
     spec:
       containers:
       - name: learner-container
-        image: matthbriet/learner:latest
+        image: 
         imagePullPolicy: Always
