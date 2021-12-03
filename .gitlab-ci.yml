@@ -87,7 +87,7 @@ build_estimator_job :
         changes :
             - Estimator/*
 
-build_predictor_job :
+build_learner_job :
     stage : build_learner
     tags:
         - docker
