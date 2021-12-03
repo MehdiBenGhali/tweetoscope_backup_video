@@ -1,6 +1,6 @@
 FROM tim0bis/tweetoscope_project_2021:gaml
 
-COPY ./kafka_2.13-2.4.1 .
+COPY ./kafka_2.13-2.4.1/* .
 ADD ./kafka.sh .
 
 ENV KAFKA_PATH=./
