@@ -30,7 +30,7 @@ build_kafka_job :
         - docker
     image : docker:latest
     script:
-        - cd docker
+        - cd Kafka
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/kafka -f Dockerfile_kafka  ../
         - docker push $CI_REGISTRY_IMAGE/kafka
@@ -47,7 +47,7 @@ build_generator_job :
         - docker
     image : docker:latest
     script:
-        - cd docker
+        - cd Generator
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/generator -f Dockerfile_generator  ../
         - docker push $CI_REGISTRY_IMAGE/generator
@@ -62,7 +62,7 @@ build_collector_job :
         - docker
     image : docker:latest
     script:
-        - cd docker
+        - cd Collector
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/collector -f Dockerfile_collector  ../
         - docker push $CI_REGISTRY_IMAGE/collector
@@ -77,7 +77,7 @@ build_estimator_job :
         - docker
     image : docker:latest
     script:
-        - cd docker
+        - cd Estimator
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker build -t $CI_REGISTRY_IMAGE/estimator -f Dockerfile_estimator  ../
         - docker push $CI_REGISTRY_IMAGE/estimator
