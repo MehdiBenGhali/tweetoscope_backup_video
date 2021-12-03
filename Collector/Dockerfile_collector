@@ -15,4 +15,4 @@ ADD ./tweet-collector .
 RUN chmod +x ./tweet-collector
 
 #Running collector
-RUN ./tweet-collector collector.ini
+CMD ./tweet-collector collector.ini
