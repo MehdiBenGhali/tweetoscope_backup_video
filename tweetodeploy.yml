@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: generator-container
-        image: gitlab-student.centralesupelec.fr/hamza.benslimane/tweetoscope_2021_07/generator
+        image: gitlab-student.centralesupelec.fr:4567/hamza.benslimane/tweetoscope_2021_07/generator
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: collector-container
-        image: gitlab-student.centralesupelec.fr/hamza.benslimane/tweetoscope_2021_07/collector
+        image: gitlab-student.centralesupelec.fr:4567/hamza.benslimane/tweetoscope_2021_07/collector
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
       - name: estimator-container
-        image: gitlab-student.centralesupelec.fr/hamza.benslimane/tweetoscope_2021_07/estimator
+        image: gitlab-student.centralesupelec.fr:4567/hamza.benslimane/tweetoscope_2021_07/estimator
         imagePullPolicy: Always
 ---
 apiVersion: apps/v1
@@ -75,7 +75,7 @@ spec:
     spec:
       containers:
       - name: predictor-container
-        image: gitlab-student.centralesupelec.fr/hamza.benslimane/tweetoscope_2021_07/predictor
+        image: gitlab-student.centralesupelec.fr:4567/hamza.benslimane/tweetoscope_2021_07/predictor
         imagePullPolicy: Always
 
 ---
