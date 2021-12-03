@@ -114,3 +114,17 @@ build_predictor_job :
     only :
         changes :
             - Predictor_Learner/*
+
+build_logger_job :
+    stage : build_logger
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - cd logger
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/predictor -f Dockerfile_logger .
+        - docker push $CI_REGISTRY_IMAGE/logger
+    only :
+        changes :
+            - logger/*
