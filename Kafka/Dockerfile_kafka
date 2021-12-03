@@ -1,6 +1,6 @@
 FROM tim0bis/tweetoscope_project_2021:gaml
 
-ADD kafka_2.13-2.4.1 .
+ADD Kafka/kafka_2.13-2.4.1 .
 ADD ./kafka.sh .
 
 ENV KAFKA_PATH=./
