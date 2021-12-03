@@ -96,5 +96,5 @@ spec:
     spec:
       containers:
       - name: learner-container
-        image: gitlab-student.centralesupelec.fr/hamza.benslimane/tweetoscope_2021_07/learner
+        image: gitlab-student.centralesupelec.fr:4567/hamza.benslimane/tweetoscope_2021_07/learner
         imagePullPolicy: Always
