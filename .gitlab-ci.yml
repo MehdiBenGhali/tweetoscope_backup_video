@@ -4,7 +4,9 @@ stages:
     - build_generator
     - build_collector
     - build_estimator
+    - build_learner
     - build_predictor
+
 
 services:
     - docker:dind
@@ -84,3 +86,31 @@ build_estimator_job :
     only :
         changes :
             - Estimator/*
+
+build_predictor_job :
+    stage : build_learner
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - cd Predictor_Learner
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/learner -f Dockerfile_learner .
+        - docker push $CI_REGISTRY_IMAGE/learner
+    only :
+        changes :
+            - Predictor_Learner/*
+
+build_predictor_job :
+    stage : build_learner
+    tags:
+        - docker
+    image : docker:latest
+    script:
+        - cd Predictor_Learner
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY_IMAGE/predictor -f Dockerfile_predictor .
+        - docker push $CI_REGISTRY_IMAGE/predictor
+    only :
+        changes :
+            - Predictor_Learner/*
