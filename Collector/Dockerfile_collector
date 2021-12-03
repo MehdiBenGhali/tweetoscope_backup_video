@@ -10,9 +10,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
 #Adding files
-WORKDIR /tweetoscope_2021_0/
 ADD ./collector.ini .
 ADD ./tweet-collector .
+RUN chmod +x ./tweet-collector
 
 #Running collector
 RUN ./tweet-collector collector.ini
