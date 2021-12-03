@@ -9,6 +9,7 @@ RUN pip install --upgrade pip
 RUN pip3 install numpy
 RUN pip3 install scipy
 RUN pip3 install kafka-python
+RUN pip3 install termcolor
 
 ### Adding files ###
 ADD ./estimator_header.py .
