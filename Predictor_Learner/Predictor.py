@@ -145,5 +145,5 @@ if __name__ == "__main__":
         if msg.topic == "models":  # If we received a model
             predictor_handler.update_models(msg)
             continue
-        predictor_handler.make_predictions_and_store(msg)
-        predictor_handler.send_samples_and_stats()
+        predictor_handler.predict_and_store(msg)
+        predictor_handler.post_samples_and_stats()
