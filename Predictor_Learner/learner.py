@@ -11,7 +11,7 @@ if __name__ == "__main__":
     ### Argument parsing ###
     parser = argparse.ArgumentParser()
     # Broker list provided as argument
-    parser.add_argument('--broker-list', type=str, default="localhost:9092")
+    parser.add_argument('--broker-list', type=str, default="kafka-service:9092")
     # The amount of new cascade samples to train on
     parser.add_argument('--batch-size', type=int, default=10)
     args = parser.parse_args()  # Parse arguments

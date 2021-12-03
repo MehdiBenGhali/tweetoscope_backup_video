@@ -113,7 +113,7 @@ if __name__ == "__main__":
     ############ Parse arguments passed from the command line ############
     parser = argparse.ArgumentParser()
     parser.add_argument('--broker-list', type=str,
-                        default="localhost:9092")  # kafka broker list
+                        default="kafka-service:9092")  # kafka broker list
     # maximum cascades to store in memory
     parser.add_argument('--cascade-memory-size', type=int, default=1000)
     args = parser.parse_args()  # Parse arguments
