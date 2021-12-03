@@ -6,7 +6,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #Python Libraries
 RUN pip install --upgrade pip
-RUN pip3 install json
 RUN pip3 install termcolor
 RUN pip3 install kafka-python
 
